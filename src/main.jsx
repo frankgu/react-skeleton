@@ -1,7 +1,5 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var ListManager = require('./components/ListManager.jsx');
+var CardManager = require('./components/CardManager.jsx');
 
-ReactDOM.render(<ListManager title="Ingredients"/>, document.getElementById('ingredients'));
-ReactDOM.render(<ListManager title="TODO" />, document.getElementById('todo'));
-ReactDOM.render(<ListManager title="Chrimas TODO" headingColor="#b31217"/>, document.getElementById('chrimas'));
+ReactDOM.render(<CardManager title="Ottawa" description="Weather 10 - 20" body="Hello Frank" panelType="success"/>, document.getElementById('weather'));

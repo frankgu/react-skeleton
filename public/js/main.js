@@ -19018,134 +19018,79 @@ process.umask = function() { return 0; };
 
 },{}],159:[function(require,module,exports){
 var React = require('react');
-var ListItem = require('./ListItem.jsx');
 
-var List = React.createClass({
-  displayName: 'List',
-
-  render: function () {
-
-    var createItem = function (text, index) {
-      return React.createElement(ListItem, { key: index + text, text: text });
-    };
-
-    return React.createElement(
-      'ul',
-      null,
-      this.props.items.map(createItem)
-    );
-  }
-});
-
-module.exports = List;
-
-},{"./ListItem.jsx":160,"react":157}],160:[function(require,module,exports){
-var React = require('react');
-
-var ListItem = React.createClass({
-  displayName: 'ListItem',
+var CardItem = React.createClass({
+  displayName: 'CardItem',
 
   render: function () {
     return React.createElement(
-      'li',
+      'div',
       null,
       React.createElement(
-        'h4',
+        'h3',
         null,
-        this.props.text
+        this.props.title
+      ),
+      React.createElement(
+        'p',
+        null,
+        this.props.description
       )
     );
   }
 });
 
-module.exports = ListItem;
+module.exports = CardItem;
 
-},{"react":157}],161:[function(require,module,exports){
+},{"react":157}],160:[function(require,module,exports){
 var React = require('react');
-var List = require('./List.jsx');
+var CardItem = require('./CardItem.jsx');
 
-var ListManger = React.createClass({
-  displayName: 'ListManger',
+var CardManager = React.createClass({
+  displayName: 'CardManager',
 
   getInitialState: function () {
-    return { items: [], newItemText: '' };
-  },
-  onChange: function (e) {
-    this.setState({ newItemText: e.target.value });
-  },
-  handleSubmit: function (e) {
-    e.preventDefault();
-
-    var currentItems = this.state.items;
-
-    currentItems.push(this.state.newItemText);
-
-    this.setState({ items: currentItems, newItemText: '' });
+    return { title: '', description: '' };
   },
   render: function () {
-
     var divStyle = {
       marginTop: 10
     };
 
-    var headingStyle = {};
+    var panelType = 'primary';
 
-    if (this.props.headingColor) {
-      headingStyle.background = this.props.headingColor;
+    if (this.props.panelType) {
+      panelType = this.props.panelType;
     }
 
     return React.createElement(
       'div',
-      { style: divStyle, className: 'col-sm-4' },
+      { style: divStyle, className: 'col-lg-3 col-md-6' },
       React.createElement(
         'div',
-        { className: 'panel panel-primary' },
+        { className: `panel panel-${ panelType }` },
         React.createElement(
           'div',
-          { style: headingStyle, className: 'panel-heading' },
-          React.createElement(
-            'h3',
-            null,
-            this.props.title
-          )
+          { className: 'panel-heading' },
+          React.createElement(CardItem, { title: this.props.title, description: this.props.description })
         ),
         React.createElement(
           'div',
-          { className: 'row panel-body' },
-          React.createElement(
-            'form',
-            { onSubmit: this.handleSubmit },
-            React.createElement(
-              'div',
-              { className: 'col-sm-9' },
-              React.createElement('input', { className: 'form-control', onChange: this.onChange, value: this.state.newItemText })
-            ),
-            React.createElement(
-              'div',
-              { className: 'col-sm-3' },
-              React.createElement(
-                'button',
-                { className: 'btn btn-primary' },
-                'Add'
-              )
-            )
-          )
-        ),
-        React.createElement(List, { items: this.state.items })
+          { className: 'panel-body' },
+          this.props.body
+        )
       )
     );
   }
 });
 
-module.exports = ListManger;
+module.exports = CardManager;
 
-},{"./List.jsx":159,"react":157}],162:[function(require,module,exports){
+},{"./CardItem.jsx":159,"react":157}],161:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
-var ListManager = require('./components/ListManager.jsx');
+var CardManager = require('./components/CardManager.jsx');
 
-ReactDOM.render(React.createElement(ListManager, { title: 'Ingredients' }), document.getElementById('ingredients'));
-ReactDOM.render(React.createElement(ListManager, { title: 'TODO' }), document.getElementById('todo'));
-ReactDOM.render(React.createElement(ListManager, { title: 'Chrimas TODO', headingColor: '#b31217' }), document.getElementById('chrimas'));
+ReactDOM.render(React.createElement(CardManager, { title: 'Ottawa', description: 'Weather 10 - 20', body: 'Hello Frank', panelType: 'success' }), document.getElementById('weather'));
 
-},{"./components/ListManager.jsx":161,"react":157,"react-dom":1}]},{},[162]);
+},{"./components/CardManager.jsx":160,"react":157,"react-dom":1}]},{},[161]);
